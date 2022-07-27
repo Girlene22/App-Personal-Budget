@@ -90,7 +90,7 @@ function cadastrarDespesa() {
 
 
 	if(despesa.validarDados()) {
-		//bd.gravar(despesa)
+		bd.gravar(despesa)
 
 		document.getElementById('modal_titulo').innerHTML = 'Registro inserido com sucesso'
 		document.getElementById('modal_titulo_div').className = 'modal-header text-success'
@@ -99,7 +99,16 @@ function cadastrarDespesa() {
 		document.getElementById('modal_btn').className = 'btn btn-success'
 
 		//dialog de sucesso
-		$('#modalRegistraDespesa').modal('show') 
+		$('#modalRegistraDespesa').modal('show')
+
+		//limpando formulário após inserção de dados
+		ano.value = ''
+		mes.value = ''
+		dia.value = ''
+		tipo.value = ''
+		descricao.value = ''
+		valor.value = ''
+
 	} else {
 		
 		document.getElementById('modal_titulo').innerHTML = 'Erro na inclusão do registro'
@@ -119,7 +128,47 @@ function carregaListaDespesas() {
 
 	despesas = bd.recuperarTodosRegistros() 
 
-	console.log(despesas)
-}
+	/*
+
+	<tr>
+		<td>15/03/2018</td>
+		<td>Alimentação</td>
+		<td>Compras do mês</td>
+		<td>444.75</td>
+	</tr>
+
+	*/
+
+	let listaDespesas = document.getElementById("listaDespesas")
+
+	despesas.forEach(function(d){
+
+		//Criando a linha (tr)
+		var linha = listaDespesas.insertRow();
+
+		//Criando as colunas (td)
+		linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}` 
+
+		//Ajustar o tipo
+		switch(d.tipo){
+			case '1': d.tipo = 'Alimentação'
+				break
+			case '2': d.tipo = 'Educação'
+				break
+			case '3': d.tipo = 'Lazer'
+				break
+			case '4': d.tipo = 'Saúde'
+				break
+			case '5': d.tipo = 'Transporte'
+				break
+			
+		}
+		linha.insertCell(1).innerHTML = d.tipo
+		linha.insertCell(2).innerHTML = d.descricao
+		linha.insertCell(3).innerHTML = d.valor
+		console.log(d)
+	})
+
+ }
 
    
