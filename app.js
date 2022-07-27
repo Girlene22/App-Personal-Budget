@@ -254,6 +254,4 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
 
  }
 
-
-
    
